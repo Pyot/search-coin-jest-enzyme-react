@@ -1,12 +1,12 @@
+import axios from 'axios';
 
 const tickerUrl = 'https://api.coinpaprika.com/v1/ticker/'
 
 export const coinApi = () => 
     new Promise(
         (resolve, reject) => {
-            fetch(tickerUrl)
-            .then(response => response.json())
-            .then(json => resolve(json))
+            axios.get(tickerUrl)
+            .then(json => resolve(json.data))
             .catch(error => alert(error))
         }
     )

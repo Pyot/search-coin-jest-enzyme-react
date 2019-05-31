@@ -15,6 +15,7 @@ class App extends React.Component {
 
   componentDidMount() {
     coinApi().then(coinData => {
+      console.log('coinData gg14', coinData)
       this.setState({
         coinData
       })

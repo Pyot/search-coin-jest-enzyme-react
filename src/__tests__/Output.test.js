@@ -21,10 +21,10 @@ afterEach(() => {
 
 it('return a correct output', () => {
   setTimeout(()=> {wrapped.find('#input-fraze').simulate('change', {
-    target: { value: 'Name/BT'}
+    target: { value: 'Name/BTC'}
 });
 wrapped.update();
-expect(wrapped.find('#output-data').prop('value')).toEqual('B')}, 0)
+expect(wrapped.find('#output-data').prop('value')).toEqual('Bitcoi')}, 000)
   console.log('AAAAAA', wrapped)
   
 })
