@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+
 import { coinApi } from './api.js'
 
 class App extends React.Component {
@@ -49,7 +50,6 @@ class App extends React.Component {
     console.log(shortName.target.value.slice(0, 5))
     let { coinData } = this.state
     let findCoin = shortName.target.value
-    console.log("TCL: App -> getCoinName -> findCoin", findCoin)
     if (findCoin.slice(0, 5) === 'Price') {
       //The "if" statment could be remove after we are using selectSearchType() function.
       //It's been kept for usage the method withoud selectSearchType()
@@ -80,11 +80,10 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.coinData)
     return (
       <div>
-        <input onChange={(event) => { this.selectSearchType(event) }} />
-        <input defaultValue={this.state.coinResult} />
+        <input id={"input-fraze"} onChange={(event) => { this.selectSearchType(event) }} />
+        <input id={"output-data"} defaultValue={this.state.coinResult} />
         {/* <button onClick={() => { this.getCoinName('BTC') }}>Test</button> */}
       </div>
     );
