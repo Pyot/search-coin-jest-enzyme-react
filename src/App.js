@@ -14,9 +14,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    coinApi().then(coinData => {
+    const tickerUrl = 'https://api.coinpaprika.com/v1/ticker/'
+
+    fetch(tickerUrl)
+            .then(json => json.json())
+            .then(coinData => {
       this.setState({
-        coinData
+        coinData: coinData
       })
     })
   }
