@@ -1,32 +1,64 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { mount } from 'enzyme';
+import moxios from 'moxios';
 import App from '../App.js';
-import { exportAllDeclaration } from '@babel/types';
 
 let wrapped;
 
 beforeEach(() => {
   wrapped = mount(<App />);
+  
+  moxios.install();
+  moxios.stubRequest('https://api.coinpaprika.com/v1/ticker/', {
+    status: 200,
+    response: [{
+      name: "Bitcoin",
+      price_usd: "99.99",
+      symbol: 'BTC'
+    }]
+  })
 })
-
+// 'price_usd': "8256.78920912",
 afterEach(() => {
-  wrapped.unmount()
+  moxios.uninstall()
 })
 
+// it('return a correct output for Name/BTC', (done) => {
+//   moxios.wait(()=>{
 
-// it('show a output element', () => {
-//     expect(wrapped.find('#output-data').length).toEqual(1);
+//     // wrapped.update()
+
+//     wrapped.find('#input-fraze').simulate('change', {
+//       target: { value: 'Name/BTC' }
+//     });
+//     wrapped.update()
+
+//     expect(wrapped.find('#output-data').prop('value')).toEqual('Bitcoin');
+//     done();
+//     wrapped.unmount()
+
 //   })
 
-it('return a correct output', () => {
-  setTimeout(()=> {wrapped.find('#input-fraze').simulate('change', {
-    target: { value: 'Name/BTC'}
-});
-wrapped.update();
-expect(wrapped.find('#output-data').prop('value')).toEqual('Bitcoi')}, 000)
-  console.log('AAAAAA', wrapped)
-  
+// })
+
+
+it('return a correct output for Price/BTC', (done) => {
+  wrapped.update()
+  setTimeout(()=>{
+
+    wrapped.update()
+
+    wrapped.find('#input-fraze').simulate('change', {
+      target: { value: 'Price/BTC' }
+    });
+    wrapped.update()
+
+    expect(wrapped.find('#output-data').prop('value'));
+    done();
+    wrapped.unmount()
+
+  }, 2000)
+
 })
 
 

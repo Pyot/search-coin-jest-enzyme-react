@@ -15,7 +15,6 @@ class App extends React.Component {
 
   componentDidMount() {
     coinApi().then(coinData => {
-      console.log('coinData gg14', coinData)
       this.setState({
         coinData
       })
@@ -84,7 +83,7 @@ class App extends React.Component {
     return (
       <div>
         <input id={"input-fraze"} onChange={(event) => { this.selectSearchType(event) }} />
-        <input id={"output-data"} defaultValue={this.state.coinResult} />
+        <input id={"output-data"} value={this.state.coinResult} readOnly/>
         {/* <button onClick={() => { this.getCoinName('BTC') }}>Test</button> */}
       </div>
     );
