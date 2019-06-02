@@ -7,9 +7,9 @@ let wrapped;
 
 beforeEach(() => {
   const mockSuccessResponse = [{
-    name: "Bitcoin",
-    price_usd: "99.99",
-    symbol: "BTC"
+    "name": "Bitcoin",
+    "price_usd": "99.99",
+    "symbol": "BTC"
   }];
   const mockJsonPromise = Promise.resolve(mockSuccessResponse); // 2
   const mockFetchPromise = Promise.resolve({ // 3
@@ -87,7 +87,7 @@ it('clean output after changed input', (done) => {
     });
     wrapped.update()
 
-    expect(wrapped.find('#output-data').prop('value')).toEqual('99.99');
+    expect(wrapped.find('#output-data').prop('value')).toEqual("99.99");
     wrapped.update()
 
     wrapped.find('#input-fraze').simulate('change', {

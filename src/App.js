@@ -1,9 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-
-import { coinApi } from './api.js'
 
 class App extends React.Component {
   constructor(props) {
@@ -21,16 +18,14 @@ class App extends React.Component {
             .then(coinData => {
       this.setState({
         coinData: coinData
-      }).catch(error => alert('Error api fetch' + error))
-    })
+      })
+    }).catch(error => alert('There is some prolem with server'))
   }
 
   getCoinName = (shortName) => {
     let { coinData } = this.state
     let findCoin = shortName.target.value
-    if (findCoin.slice(0, 4) === 'Name') {
-      //The "if" statment could be remove after we are using selectSearchType() method.
-      //It's been kept for usage the method withoud selectSearchType()
+    if (findCoin.slice(0, 5) === 'Name/') {
       let coinObject = coinData.find(coin => coin.symbol === findCoin.slice(5));
       if (coinObject !== undefined) {
         if (coinObject.hasOwnProperty('name')) {
@@ -51,9 +46,7 @@ class App extends React.Component {
   getCoinPrice = (shortName) => {
     let { coinData } = this.state
     let findCoin = shortName.target.value
-    if (findCoin.slice(0, 5) === 'Price') {
-      //The "if" statment could be remove after we are using selectSearchType() function.
-      //It's been kept for usage the method withoud selectSearchType()
+    if (findCoin.slice(0, 6) === 'Price/') {
       let coinObject = coinData.find(coin => coin.symbol === findCoin.slice(6));
       if (coinObject !== undefined) {
         if (coinObject.hasOwnProperty('price_usd')) {
@@ -61,7 +54,7 @@ class App extends React.Component {
             coinResult: coinObject.price_usd
           })
         } else {
-          alert('Missing price for the ' + findCoin.slice(5))
+          alert('Missing price for the ' + findCoin.slice(6))
         }
       } else {
         this.setState({
@@ -73,9 +66,9 @@ class App extends React.Component {
 
   selectSearchType = (event) => {
     let findCoin = event.target.value;
-    if (findCoin.slice(0, 4) === 'Name') {
+    if (findCoin.slice(0, 5) === 'Name/') {
       this.getCoinName(event)
-    } else if (findCoin.slice(0, 5) === 'Price') {
+    } else if (findCoin.slice(0, 6) === 'Price/') {
       this.getCoinPrice(event)
     }
   }
@@ -85,7 +78,6 @@ class App extends React.Component {
       <div>
         <input id={"input-fraze"} onChange={(event) => { this.selectSearchType(event) }} />
         <input id={"output-data"} value={this.state.coinResult} readOnly/>
-        {/* <button onClick={() => { this.getCoinName('BTC') }}>Test</button> */}
       </div>
     );
   }
