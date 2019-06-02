@@ -19,7 +19,7 @@ class App extends React.Component {
       this.setState({
         coinData: coinData
       })
-    }).catch(error => alert('There is some prolem with server'))
+    }).catch(error => alert('There is some prolem with server ' + error))
   }
 
   getCoinName = (shortName) => {
