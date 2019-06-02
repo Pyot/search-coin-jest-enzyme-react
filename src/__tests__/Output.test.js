@@ -6,83 +6,65 @@ import App from '../App.js';
 let wrapped;
 
 beforeEach(() => {
-  wrapped = mount(<App />);
-
-})
-// 'price_usd': "8256.78920912",
-afterEach(() => {
-  moxios.uninstall()
-})
-
-// it('return a correct output for Name/BTC', (done) => {
-//   moxios.wait(()=>{
-
-//     // wrapped.update()
-
-//     wrapped.find('#input-fraze').simulate('change', {
-//       target: { value: 'Name/BTC' }
-//     });
-//     wrapped.update()
-
-//     expect(wrapped.find('#output-data').prop('value')).toEqual('Bitcoin');
-//     done();
-//     wrapped.unmount()
-
-//   })
-
-// })
-
-
-it('return a correct output for Price/BTC', (done) => {
   const mockSuccessResponse = [{
-          name: "Bitcoin",
-          price_usd: "99.99",
-          symbol: 'BTC'
-        }];
+    name: "Bitcoin",
+    price_usd: "99.99",
+    symbol: "BTC"
+  }];
   const mockJsonPromise = Promise.resolve(mockSuccessResponse); // 2
   const mockFetchPromise = Promise.resolve({ // 3
     json: () => mockJsonPromise,
   });
-  jest.spyOn(global, 'fetch').mockImplementation(() => mockFetchPromise); // 4
+  jest.spyOn(global, 'fetch').mockImplementation(() => mockFetchPromise);
+  wrapped = mount(<App />)
+})
 
-  expect(global.fetch).toHaveBeenCalledTimes(1);
-  expect(global.fetch).toHaveBeenCalledWith('https://api.coinpaprika.com/v1/ticker/');
-  wrapped.update()
+it('check jest-fetch-mock is add fake api respond', (done) => {
+  process.nextTick(() => { 
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(global.fetch).toHaveBeenCalledWith('https://api.coinpaprika.com/v1/ticker/');
+    global.fetch.mockClear();
+    wrapped.unmount();
+    done(); 
+  });
+})
 
-  process.nextTick(() => { // 6
-    console.log('gg15', wrapped.state())
-  wrapped.update()
+it('return a correct output for Name/BTC input', (done) => {
+  process.nextTick(() => { 
+    wrapped.update();
+
+    wrapped.find('#input-fraze').simulate('change', {
+      target: { value: 'Name/BTC' }
+    });
+    wrapped.update();
+
+    expect(wrapped.find('#output-data').prop('value')).toEqual("Bitcoin");
+    global.fetch.mockClear();
+    wrapped.unmount();
+    done(); 
+  });
+})
+
+
+it('return a correct output for Price/BTC input', (done) => {
+  process.nextTick(() => { 
+    wrapped.update();
 
     wrapped.find('#input-fraze').simulate('change', {
       target: { value: 'Price/BTC' }
     });
-    wrapped.update()
+    wrapped.update();
 
-    expect(wrapped.find('#output-data').prop('value')).toEqual('99.99');
-    global.fetch.mockClear(); // 7
-    done(); // 8
+    expect(wrapped.find('#output-data').prop('value')).toEqual("99.99");
+    global.fetch.mockClear();
+    wrapped.unmount();
+    done(); 
   });
 })
 
 it('return a empty string for missing coin', (done) => {
-  const mockSuccessResponse = [{
-          name: "Bitcoin",
-          price_usd: "99.99",
-          symbol: 'BTC'
-        }];
-  const mockJsonPromise = Promise.resolve(mockSuccessResponse); // 2
-  const mockFetchPromise = Promise.resolve({ // 3
-    json: () => mockJsonPromise,
-  });
-  jest.spyOn(global, 'fetch').mockImplementation(() => mockFetchPromise); // 4
-
-  expect(global.fetch).toHaveBeenCalledTimes(1);
-  expect(global.fetch).toHaveBeenCalledWith('https://api.coinpaprika.com/v1/ticker/');
-  wrapped.update()
-
-  process.nextTick(() => { // 6
-    console.log('gg15', wrapped.state())
-  wrapped.update()
+  process.nextTick(() => { 
+    wrapped.update()
 
     wrapped.find('#input-fraze').simulate('change', {
       target: { value: 'Price/WRONG_NAME' }
@@ -90,38 +72,22 @@ it('return a empty string for missing coin', (done) => {
     wrapped.update()
 
     expect(wrapped.find('#output-data').prop('value')).toEqual('');
-    global.fetch.mockClear(); // 7
-    done(); // 8
+    global.fetch.mockClear();
+    wrapped.unmount();
+    done();
   });
 })
 
 it('clean output after changed input', (done) => {
-  const mockSuccessResponse = [{
-          name: "Bitcoin",
-          price_usd: "99.99",
-          symbol: 'BTC'
-        }];
-  const mockJsonPromise = Promise.resolve(mockSuccessResponse); // 2
-  const mockFetchPromise = Promise.resolve({ // 3
-    json: () => mockJsonPromise,
-  });
-  jest.spyOn(global, 'fetch').mockImplementation(() => mockFetchPromise); // 4
-
-  
-  expect(global.fetch).toHaveBeenCalledTimes(1);
-  expect(global.fetch).toHaveBeenCalledWith('https://api.coinpaprika.com/v1/ticker/');
-  wrapped.update()
-
-  process.nextTick(() => { // 6
-    console.log('gg15', wrapped.state())
-  wrapped.update()
+  process.nextTick(() => {
+    wrapped.update()
 
     wrapped.find('#input-fraze').simulate('change', {
       target: { value: 'Price/BTC' }
     });
     wrapped.update()
 
-    expect(wrapped.find('#output-data').prop('value')).toEqual('Bitcoin');
+    expect(wrapped.find('#output-data').prop('value')).toEqual('99.99');
     wrapped.update()
 
     wrapped.find('#input-fraze').simulate('change', {
@@ -130,8 +96,8 @@ it('clean output after changed input', (done) => {
     wrapped.update()
 
     expect(wrapped.find('#output-data').prop('value')).toEqual('');
-    global.fetch.mockClear(); // 7
-    done(); // 8
+    global.fetch.mockClear();
+    done();
   });
 })
 

@@ -21,15 +21,13 @@ class App extends React.Component {
             .then(coinData => {
       this.setState({
         coinData: coinData
-      })
+      }).catch(error => alert('Error api fetch' + error))
     })
   }
 
   getCoinName = (shortName) => {
-    console.log(shortName.target.value.slice(0, 4))
     let { coinData } = this.state
     let findCoin = shortName.target.value
-    console.log("TCL: App -> getCoinName -> findCoin", findCoin)
     if (findCoin.slice(0, 4) === 'Name') {
       //The "if" statment could be remove after we are using selectSearchType() method.
       //It's been kept for usage the method withoud selectSearchType()
@@ -51,7 +49,6 @@ class App extends React.Component {
   }
 
   getCoinPrice = (shortName) => {
-    console.log(shortName.target.value.slice(0, 5))
     let { coinData } = this.state
     let findCoin = shortName.target.value
     if (findCoin.slice(0, 5) === 'Price') {
