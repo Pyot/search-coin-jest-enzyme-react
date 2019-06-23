@@ -1,5 +1,3 @@
-
-
 ## How to use:
 To run tests. Please run `npm test` in the project directory. 
 [Link to the project test files](https://github.com/Pyot/search-coin-jest-enzyme-react/tree/master/src/__tests__)
