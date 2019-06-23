@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -14,12 +13,12 @@ class App extends React.Component {
     const tickerUrl = 'https://api.coinpaprika.com/v1/ticker/'
 
     fetch(tickerUrl)
-            .then(json => json.json())
-            .then(coinData => {
-      this.setState({
-        coinData: coinData
-      })
-    }).catch(error => alert('There is some prolem with server ' + error))
+      .then(json => json.json())
+      .then(coinData => {
+        this.setState({
+          coinData: coinData
+        })
+      }).catch(error => alert('There is some prolem with server ' + error))
   }
 
   getCoinName = (shortName) => {
@@ -40,7 +39,7 @@ class App extends React.Component {
           coinResult: ''
         })
       }
-    } 
+    }
   }
 
   getCoinPrice = (shortName) => {
@@ -76,8 +75,16 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <input id={"input-fraze"} onChange={(event) => { this.selectSearchType(event) }} />
-        <input id={"output-data"} value={this.state.coinResult} readOnly/>
+        <div>
+          <label>Provide currecy name:</label>
+          <input id={"input-fraze"} onChange={(event) => { this.selectSearchType(event) }} />
+        </div>
+        <div>
+          <label>Result:</label>
+          <input id={"output-data"} value={this.state.coinResult} readOnly />
+        </div>
+        <p>If you provide "Name/BTC". You should recive Bitcoin. If you provide "Price/BTC", you should recive a current Bitcoin price.</p>
+        <p>Go and run tests, type <b>npm test</b> in terminal.</p>
       </div>
     );
   }
